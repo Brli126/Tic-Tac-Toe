@@ -1,0 +1,43 @@
+#game_board_container {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+
+#game_board {
+    height: 500px;
+    width: 500px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+
+}
+
+.cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+p {
+    font-size: 50px;
+}
+
+#cell_0,
+#cell_1,
+#cell_3,
+#cell_4,
+#cell_6,
+#cell_7 {
+    border-right: 3px solid black;
+}
+
+#cell_0,
+#cell_1,
+#cell_2,
+#cell_3,
+#cell_4,
+#cell_5 {
+    border-bottom: 3px solid black;
+}
