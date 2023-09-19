@@ -87,6 +87,9 @@ const game = () => {
     // Mode: pvp or pve
     const Mode = "pvp";
 
+    // number of total move.
+    let nmove = 0;
+
     
     const player1 = player("X", "player1");
     const player2 = player("O", "player2");
@@ -108,21 +111,28 @@ const game = () => {
         resultDialog.showModal();
     };
 
-
-
     const start = function() {
         
         cells.forEach(cell => cell.addEventListener('click', 
-            () => {currentPlayer.setMark(getCellIndex(cell));   // place piece
+            () => {currentPlayer.setMark(getCellIndex(cell));
+                   nmove++;
                    gameBoard.render();                          // display
+
+                   // check for win after each move.
                    const result = gameBoard.checkResult(getCellIndex(cell));
                    if (result === true) {
-                    resultMessage.textContent = `Game over! ${currentPlayer.getName()} won!`
+                    resultMessage.textContent = `Game over! ${currentPlayer.getName()} won!`;
                     openDialog();
+                   } else {
+                     // if no winner after a move, check for tie.
+                     if (nmove == 9) {
+                        resultMessage.textContent = 'Tie!';
+                        openDialog();
+                     }
                    }
                    takeTurn();                         
                 },  
-                   {once: true}));                              // Can only click once per cell.
+                   {once: true}));                              
             
         
     };

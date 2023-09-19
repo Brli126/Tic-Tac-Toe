@@ -4,6 +4,11 @@
     justify-content: center;
 }
 
+#resultDialog {
+    width: 400px;
+    height: 200px;
+}
+
 
 #game_board {
     height: 500px;
