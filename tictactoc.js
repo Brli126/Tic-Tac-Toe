@@ -3,7 +3,7 @@
 const gameBoard = (() => {
     const gameBoardArr = ["", "", "", "", "", "", "", "", ""];
     const ncell = 9; // number of cells.
-    let latestMove = {
+    const latestMove = {
         index: 0,
         mark: '',
     };
@@ -15,6 +15,18 @@ const gameBoard = (() => {
             cell.textContent = gameBoardArr[i];
         }
     };
+
+    const resetGB = function() {
+
+        for (let i = 0; i < ncell; i++) {
+            gameBoardArr[i] = '';
+        };
+
+        render();
+
+        latestMove.index = 0;
+        latestMove.mark = '';
+    }
 
     const updateBoard = function(idx, mark) {
         gameBoardArr[idx] = mark;
@@ -72,77 +84,37 @@ const gameBoard = (() => {
         }
     };
 
-    return {render, updateBoard, checkResult};
+    return {render, resetGB, updateBoard, checkResult};
 
 })()
 
 
-const cells = document.querySelectorAll('.cell');
-const resultDialog = document.querySelector('#resultDialog');
-const resultMessage = resultDialog.querySelector('p');
 
-// Factory functon to create a game.
+const uiController = ( () => {
+    const restartBtn = document.querySelector('#restart');
+    const newBtn = document.querySelector('#new_game');
+    const newDialog = document.querySelector('#new_game_dialog');
+    const doneBtn = newDialog.querySelector('#done_btn');
+    const p1Name = newDialog.querySelector('#player1_name');
+    const p2Name = newDialog.querySelector('#player2_name');
 
-const game = () => {
-    // Mode: pvp or pve
-    const Mode = "pvp";
+    newBtn.addEventListener('click', () => {
+        newDialog.showModal();
+        doneBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const ng = game(p1Name.value, p2Name.value);
+            ng.start();
+            restartBtn.addEventListener('click', () => {
+                ng.restart();
+            })
+            newDialog.close();
 
-    // number of total move.
-    let nmove = 0;
+        })
+    })
 
-    
-    const player1 = player("X", "player1");
-    const player2 = player("O", "player2");
-    let currentPlayer = player1;
+    newDialog.addEventListener('close', () => newBtn.disabled = true);
 
-    const getCellIndex = function(cell) {
-        return Number(cell.getAttribute('data-index'));
-    }
- 
-    const takeTurn = function() {
-        if (currentPlayer === player1) {
-            currentPlayer = player2;
-        } else {
-            currentPlayer = player1;
-        }
-    }
-
-    const openDialog = function() {
-        resultDialog.showModal();
-    };
-
-    const start = function() {
-        
-        cells.forEach(cell => cell.addEventListener('click', 
-            () => {currentPlayer.setMark(getCellIndex(cell));
-                   nmove++;
-                   gameBoard.render();                          // display
-
-                   // check for win after each move.
-                   const result = gameBoard.checkResult(getCellIndex(cell));
-                   if (result === true) {
-                    resultMessage.textContent = `Game over! ${currentPlayer.getName()} won!`;
-                    openDialog();
-                   } else {
-                     // if no winner after a move, check for tie.
-                     if (nmove == 9) {
-                        resultMessage.textContent = 'Tie!';
-                        openDialog();
-                     }
-                   }
-                   takeTurn();                         
-                },  
-                   {once: true}));                              
-            
-        
-    };
-
-    return{start};
-}
-
-
-
-
+})();
 
 
 // Factory function to create player object.
@@ -157,5 +129,93 @@ const player = (myMark, myName) => {
     return {getName, setMark};
 }
 
-const newgame = game();
-newgame.start();
+
+// Factory functon to create a game.
+
+const game = (p1_name, p2_name) => {
+
+    const cells = document.querySelectorAll('.cell');
+    const resultDialog = document.querySelector('#result_dialog');
+    const resultMessage = resultDialog.querySelector('p');
+    //const okBtn = resultDialog.querySelector('#ok_btn');
+    // Mode: pvp or pve
+    const Mode = "pvp";
+
+    // number of total move.
+    let nmove = 0;
+
+    const player1 = player("X", p1_name);
+    const player2 = player("O", p2_name);
+    let currentPlayer = player1;
+
+
+
+    const getCellIndex = function(cell) {
+        return Number(cell.getAttribute('data-index'));
+    }
+ 
+    const takeTurn = function() {
+        if (currentPlayer === player1) {
+            currentPlayer = player2;
+        } else {
+            currentPlayer = player1;
+        }
+    }
+
+    const openDialog_result = function() {
+        resultDialog.showModal();
+    };
+
+    
+    // helper function for start(), "this" in this function refer to "cell", see start().
+    const updateAndCheck = function() {
+        currentPlayer.setMark(getCellIndex(this));
+        nmove++;
+        gameBoard.render();                          // display
+
+        // check for win after each move.
+        const result = gameBoard.checkResult(getCellIndex(this));
+        if (result === true) {
+            resultMessage.textContent = `Game over! ${currentPlayer.getName()} won!`;
+            openDialog_result();
+        } else {
+            // if no winner after a move, check for tie.
+            if (nmove == 9) {
+                resultMessage.textContent = 'Tie!';
+                openDialog_result();
+            }
+        }
+        takeTurn();
+
+    }
+
+    const start = function() {
+        cells.forEach(cell => cell.addEventListener('click', updateAndCheck, {once: true}));                            
+        resultDialog.addEventListener('close', () => {
+            cells.forEach(cell => cell.removeEventListener('click',
+            updateAndCheck, {once: true}));
+        });
+        
+    };
+
+    const restart = function() {
+        currentPlayer = player1;
+        nmove = 0;
+        gameBoard.resetGB();
+        start();
+    }
+
+    return{start, restart};
+};
+
+
+
+
+
+
+
+
+
+
+
+

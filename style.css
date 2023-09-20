@@ -1,13 +1,32 @@
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 #game_board_container {
-    padding: 20px;
+    padding: 30px;
     display: flex;
     justify-content: center;
 }
 
-#resultDialog {
+#result_dialog {
     width: 400px;
     height: 200px;
 }
+
+#header {
+    height: 200px;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    grid-template-columns: 7fr 3fr;
+    background-color: aliceblue;
+}
+
+#new_game {
+    justify-self: start;
+}
+
 
 
 #game_board {
@@ -45,4 +64,20 @@ p {
 #cell_4,
 #cell_5 {
     border-bottom: 3px solid black;
+}
+
+#restart_container {
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+#restart {
+    width: 225px;
+    height: 70px;
+    font-size: 30px;
+    border: none;
+    border-radius: 10px;
+    background-color: chartreuse;
+
 }

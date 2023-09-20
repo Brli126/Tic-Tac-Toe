@@ -8,24 +8,47 @@
     <script src="./tictactoc.js" defer></script>
 </head>
 <body>
-    <dialog id="resultDialog">
-        <p id="resultMessage"></p>
-        <form method="dialog">
-            <button id="okBtn">OK</button>
+    <dialog id="new_game_dialog">
+        <form>
+            <p>Please enter your names:</p>
+            <label for="player1_name">Player 1 (X):</label>
+            <input type="text" id="player1_name" value="player1">
+            <label for="player2_name">Player 2 (O):</label>
+            <input type="text" id="player2_name" value="player2">
+            <button id="cancel_btn" formmethod="dialog">Cancel</button>
+            <button id="done_btn">Done</button>
         </form>
     </dialog>
-    <div id="game_board_container">
-        <div id="game_board">
-            <div class="cell" id="cell_0" data-index="0"><p></p></div>
-            <div class="cell" id="cell_1" data-index="1"><p></p></div>
-            <div class="cell" id="cell_2" data-index="2"><p></p></div>
-            <div class="cell" id="cell_3" data-index="3"><p></p></div>
-            <div class="cell" id="cell_4" data-index="4"><p></p></div>
-            <div class="cell" id="cell_5" data-index="5"><p></p></div>
-            <div class="cell" id="cell_6" data-index="6"><p></p></div>
-            <div class="cell" id="cell_7" data-index="7"><p></p></div>
-            <div class="cell" id="cell_8" data-index="8"><p></p></div>
+
+    <dialog id="result_dialog">
+        <p id="result_message"></p>
+        <form method="dialog">
+            <button id="ok_btn">OK</button>
+        </form>
+    </dialog>
+    <div id="page_container">
+        <div id="header">
+            <p id="title">Tic Tac Toc</p>
+            <button id="new_game">New Game</button>
         </div>
+
+        <div id="game_board_container">
+            <div id="game_board">
+                <div class="cell" id="cell_0" data-index="0"><p></p></div>
+                <div class="cell" id="cell_1" data-index="1"><p></p></div>
+                <div class="cell" id="cell_2" data-index="2"><p></p></div>
+                <div class="cell" id="cell_3" data-index="3"><p></p></div>
+                <div class="cell" id="cell_4" data-index="4"><p></p></div>
+                <div class="cell" id="cell_5" data-index="5"><p></p></div>
+                <div class="cell" id="cell_6" data-index="6"><p></p></div>
+                <div class="cell" id="cell_7" data-index="7"><p></p></div>
+                <div class="cell" id="cell_8" data-index="8"><p></p></div>
+            </div>
+        </div>
+        <div id="restart_container">
+            <button id="restart">Restart</button>
+        </div>
+        
     </div>
     
 </body>
