@@ -90,7 +90,7 @@ const gameBoard = (() => {
 
 
 
-const uiController = ( () => {
+const gameController = ( () => {
     const restartBtn = document.querySelector('#restart');
     const newBtn = document.querySelector('#new_game');
     const newDialog = document.querySelector('#new_game_dialog');
@@ -103,7 +103,7 @@ const uiController = ( () => {
         doneBtn.addEventListener('click', (e) => {
             e.preventDefault();
             const ng = game(p1Name.value, p2Name.value);
-            ng.start();
+            ng.restart();
             restartBtn.addEventListener('click', () => {
                 ng.restart();
             })
@@ -111,8 +111,6 @@ const uiController = ( () => {
 
         })
     })
-
-    newDialog.addEventListener('close', () => newBtn.disabled = true);
 
 })();
 

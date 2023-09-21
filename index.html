@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/clickuper" type="text/css"/>
     <link rel="stylesheet" href="./style.css">
     <script src="./tictactoc.js" defer></script>
 </head>
 <body>
     <dialog id="new_game_dialog">
         <form>
-            <p>Please enter your names:</p>
+            <p>Enter your names:</p>
             <label for="player1_name">Player 1 (X):</label>
-            <input type="text" id="player1_name" value="player1">
+            <input type="text" id="player1_name" placeholder="player1">
             <label for="player2_name">Player 2 (O):</label>
-            <input type="text" id="player2_name" value="player2">
+            <input type="text" id="player2_name" placeholder="player2">
             <button id="cancel_btn" formmethod="dialog">Cancel</button>
             <button id="done_btn">Done</button>
         </form>
